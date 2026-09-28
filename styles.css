@@ -18,16 +18,28 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+
   background: #020b18;
   color: var(--text);
   font-family: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
-  overflow-x: hidden;
+
   background-image:
-    radial-gradient(circle at 50% 0%, #0b3565 0, #04152b 38%, #020912 78%);
+    radial-gradient(
+      circle at 50% 0%,
+      #0b3565 0,
+      #04152b 38%,
+      #020912 78%
+    );
 }
 
 a {
@@ -1535,5 +1547,49 @@ footer a {
     max-width: 100%;
 
     border-radius: 12px;
+  }
+}
+
+@media (max-width: 650px) {
+  .site-header {
+    height: 64px;
+    padding: 6px 14px;
+  }
+
+  .brand {
+    width: 165px;
+    max-width: calc(100% - 60px);
+  }
+
+  .brand img {
+    width: 100%;
+    height: 48px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .menu-toggle {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+  }
+
+  .nav {
+    left: 14px;
+    right: 14px;
+    top: 68px;
+    width: auto;
+  }
+}
+
+@media (max-width: 650px) {
+  .hero::before,
+  .pricing-section::before,
+  .contact-section::before {
+    inset: 0;
   }
 }

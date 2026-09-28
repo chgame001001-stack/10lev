@@ -1343,3 +1343,197 @@ footer a {
     font-size: 14px;
   }
 }
+
+/* =========================
+   PRICING + POSTER
+========================= */
+
+.pricing-content {
+  width: min(1180px, calc(100% - 40px));
+  margin: 45px auto 0;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
+  gap: 60px;
+  align-items: center;
+}
+
+/* 기존 pricing-grid가 가운데 정렬 등을 가지고 있을 경우 초기화 */
+.pricing-content .pricing-grid {
+  width: 100%;
+  margin: 0;
+}
+
+/* 포스터 영역 */
+.pricing-poster {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pricing-poster img {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 0 35px rgba(43, 188, 255, 0.12);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.pricing-poster img:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.55),
+    0 0 45px rgba(43, 188, 255, 0.2);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+  .pricing-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .pricing-poster img {
+    max-width: 520px;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .pricing-content {
+    width: min(100% - 24px, 520px);
+    margin-top: 32px;
+    gap: 32px;
+  }
+
+  .pricing-poster img {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+}
+
+/* =========================
+   HERO + POSTER
+========================= */
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+
+  width: min(1280px, calc(100% - 60px));
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 500px);
+  gap: 70px;
+
+  align-items: center;
+}
+
+
+/* 기존 hero-copy 위치 보정 */
+.hero-inner .hero-copy {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  margin: 0;
+}
+
+
+/* =========================
+   HERO POSTER
+========================= */
+
+.hero-poster {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-poster img {
+  display: block;
+
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(43, 188, 255, 0.15);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.hero-poster img:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 35px 90px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(43, 188, 255, 0.25);
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1000px) {
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+
+    width: min(760px, calc(100% - 40px));
+  }
+
+  .hero-inner .hero-copy {
+    max-width: 100%;
+  }
+
+  .hero-poster img {
+    max-width: 520px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .hero-inner {
+    width: calc(100% - 28px);
+    gap: 38px;
+  }
+
+  .hero-poster img {
+    width: 100%;
+    max-width: 100%;
+
+    border-radius: 12px;
+  }
+}

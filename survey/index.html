@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>고객 정보 확인 | 열렙팩토리</title>
+<meta name="theme-color" content="#031225" />
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+:root{
+  --bg:#031225;
+  --panel:#061c34;
+  --panel2:#08294b;
+  --cyan:#2bbcff;
+  --cyan2:#8ee4ff;
+  --gold:#ffd257;
+  --gold2:#ff9e1f;
+  --text:#eef8ff;
+  --muted:#9fb9cf;
+  --line:rgba(79,195,255,.35);
+  --shadow:0 18px 60px rgba(0,0,0,.45);
+  --danger:#ff6b6b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  overflow-x:hidden;
+  background:#020b18;
+  background-image:radial-gradient(circle at 50% 0%,#0b3565 0,#04152b 38%,#020912 78%);
+  min-height:100vh;
+}
+body:before{
+  content:"";
+  position:fixed;inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(36,161,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(36,161,255,.03) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(to bottom,black,transparent 72%);
+  z-index:-2;
+}
+body:after{
+  content:"";
+  position:fixed;
+  width:560px;height:560px;
+  right:-120px;top:80px;
+  border-radius:50%;
+  background:#0b75ff;
+  filter:blur(160px);
+  opacity:.10;
+  pointer-events:none;
+  z-index:-1;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* snow effect */
+.snow{position:fixed;inset:-80px 0 0;z-index:30;pointer-events:none;background-repeat:repeat;opacity:.26}
+.snow-a{background-image:radial-gradient(circle,#fff 0 1.5px,transparent 2px);background-size:220px 220px;animation:snow 17s linear infinite}
+.snow-b{background-image:radial-gradient(circle,#9fe5ff 0 1px,transparent 1.8px);background-size:150px 150px;animation:snow 26s linear infinite reverse;opacity:.17}
+@keyframes snow{to{transform:translate3d(20px,220px,0)}}
+
+/* header */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  height:82px;
+  padding:9px clamp(18px,4vw,64px);
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  background:linear-gradient(to bottom,rgba(2,9,20,.97),rgba(2,9,20,.75));
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(85,196,255,.18);
+}
+.brand{display:flex;align-items:center;width:270px;max-width:50vw}
+.brand img{height:62px;width:100%;object-fit:contain;object-position:left center}
+.home-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid #2c92d3;
+  background:rgba(7,35,61,.75);
+  border-radius:8px;
+  padding:11px 16px;
+  color:#d8efff;
+  font-size:13px;font-weight:900;
+  transition:.2s;
+}
+.home-link:hover{background:#0b3a61;transform:translateY(-1px)}
+
+/* page */
+.page{
+  width:min(980px,calc(100% - 36px));
+  margin:64px auto 90px;
+}
+.intro{
+  text-align:center;
+  margin-bottom:34px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--cyan2);
+  font-size:12px;letter-spacing:.22em;font-weight:900;
+  margin-bottom:15px;
+}
+.eyebrow:before{content:"✦";color:var(--gold)}
+.intro h1{
+  margin:0;
+  font-size:clamp(36px,5vw,62px);
+  line-height:1.13;
+  letter-spacing:-.045em;
+  text-shadow:0 4px 20px rgba(0,0,0,.45);
+}
+.intro h1 strong{color:var(--gold)}
+.intro p{
+  max-width:720px;
+  margin:18px auto 0;
+  color:#b4ccdf;
+  line-height:1.8;
+  font-size:16px;
+}
+
+/* survey frame */
+.survey-frame{
+  position:relative;
+  padding:9px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#5dd4ff,#0b3a72 35%,#ffc14f 72%,#11385b);
+  box-shadow:0 30px 90px rgba(0,0,0,.55),0 0 60px rgba(31,161,255,.13);
+}
+.survey-frame:before{
+  content:"";
+  position:absolute;inset:4px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.32);
+  pointer-events:none;
+}
+.survey{
+  position:relative;
+  z-index:1;
+  overflow:hidden;
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(7,35,61,.99),rgba(2,16,31,.995));
+  border:1px solid rgba(74,186,246,.25);
+}
+.survey-head{
+  padding:27px 30px 24px;
+  border-bottom:1px solid rgba(73,178,238,.20);
+  background:
+    radial-gradient(circle at 88% 10%,rgba(43,188,255,.13),transparent 34%),
+    linear-gradient(180deg,rgba(8,42,73,.9),rgba(4,27,49,.78));
+}
+.board-label{
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
+  margin-bottom:17px;
+  color:#d6f1ff;
+  font-size:11px;letter-spacing:.10em;font-weight:900;
+}
+.board-label b{color:#ffe592;font-size:12px}
+.survey-head h2{margin:0 0 9px;font-size:27px;color:#ffe277}
+.survey-head p{margin:0;color:#a9c1d4;line-height:1.7;font-size:14px}
+
+.progress-wrap{margin-top:20px}
+.progress-meta{display:flex;justify-content:space-between;color:#91bad4;font-size:12px;margin-bottom:7px}
+.progress{
+  height:7px;
+  background:#031527;
+  border:1px solid rgba(80,186,247,.18);
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress-bar{
+  width:0%;height:100%;
+  background:linear-gradient(90deg,#20caff,#75e1ff,#ffd65d);
+  box-shadow:0 0 15px rgba(43,188,255,.5);
+  transition:.25s ease;
+}
+
+/* questions */
+.questions{padding:0 30px}
+.question{
+  padding:29px 0;
+  border-bottom:1px solid rgba(73,178,238,.16);
+}
+.question:last-child{border-bottom:0}
+.q-head{display:flex;gap:15px;align-items:flex-start;margin-bottom:18px}
+.q-num{
+  flex:0 0 auto;
+  width:43px;height:43px;
+  display:grid;place-items:center;
+  border-radius:9px;
+  background:#0a3156;
+  border:1px solid #216993;
+  color:#62d6ff;
+  font-weight:950;
+  font-family:monospace;
+  box-shadow:inset 0 0 16px rgba(69,187,255,.10);
+}
+.q-title{font-size:18px;font-weight:900;line-height:1.55;color:#f4faff}
+.required{color:var(--gold);margin-left:4px}
+.q-type{
+  display:inline-block;
+  margin-top:4px;
+  color:#82aac5;
+  font-size:12px;
+}
+.options{display:grid;gap:10px;margin-left:58px}
+.option{
+  display:flex;align-items:center;gap:12px;
+  min-height:50px;
+  padding:12px 15px;
+  border:1px solid rgba(57,175,240,.27);
+  border-radius:9px;
+  background:linear-gradient(90deg,rgba(7,39,68,.90),rgba(3,19,37,.88));
+  color:#cbe1f0;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.option:hover{
+  border-color:rgba(89,206,255,.58);
+  background:linear-gradient(90deg,rgba(10,53,91,.95),rgba(4,27,49,.93));
+}
+.option.selected {
+  border-color: #56cbff;
+  border-left: 3px solid var(--gold);
+  background: linear-gradient(
+    90deg,
+    rgba(9,60,100,.98),
+    rgba(5,32,57,.96)
+  );
+  color: #fff;
+  box-shadow: 0 0 20px rgba(43,188,255,.08);
+}
+input[type="radio"],input[type="checkbox"]{
+  width:18px;height:18px;
+  flex:0 0 auto;
+  accent-color:#2bbcff;
+}
+textarea{
+  width:calc(100% - 58px);
+  margin-left:58px;
+  min-height:130px;
+  resize:vertical;
+  padding:15px 16px;
+  border-radius:10px;
+  border:1px solid rgba(57,175,240,.30);
+  outline:none;
+  background:linear-gradient(180deg,rgba(3,24,44,.96),rgba(2,17,32,.96));
+  color:#eef8ff;
+  font:inherit;
+  line-height:1.7;
+  transition:.18s;
+}
+textarea::placeholder{color:#6789a2}
+textarea:focus{
+  border-color:#55d0ff;
+  box-shadow:0 0 0 3px rgba(43,188,255,.08);
+}
+
+/* footer */
+.survey-footer{
+  padding:24px 30px 28px;
+  border-top:1px solid rgba(73,178,238,.20);
+  background:linear-gradient(180deg,rgba(5,29,52,.86),rgba(3,20,38,.97));
+}
+.notice{
+  margin:0 0 17px;
+  padding:14px 16px;
+  border:1px solid rgba(255,187,66,.28);
+  border-radius:8px;
+  color:#c7d7e3;
+  background:linear-gradient(90deg,rgba(65,31,5,.54),rgba(6,26,45,.68));
+  font-size:12px;
+  line-height:1.65;
+}
+.notice strong{color:#ffd45b}
+.actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+button{
+  min-width:155px;
+  border:0;
+  border-radius:8px;
+  padding:14px 20px;
+  font:inherit;
+  font-weight:950;
+  cursor:pointer;
+  transition:.2s;
+}
+.btn-reset{
+  border:1px solid #2c92d3;
+  background:rgba(7,35,61,.8);
+  color:#d8efff;
+}
+.btn-reset:hover{background:#0b3a61}
+.btn-save{
+  background:linear-gradient(180deg,#ffdb68,#f2a719);
+  color:#251500;
+  border:1px solid #ffe9a1;
+  box-shadow:0 10px 25px rgba(0,0,0,.28);
+}
+.btn-save:hover{transform:translateY(-2px);filter:brightness(1.05)}
+button:disabled{opacity:.55;cursor:wait;transform:none!important}
+.status{display:none;margin-top:12px;text-align:right;color:#8ee4ff;font-size:12px}
+.capture-mode .no-capture{display:none!important}
+.capture-mode textarea{overflow:hidden;resize:none}
+
+.bottom-copy{
+  margin-top:24px;
+  text-align:center;
+  color:#63839b;
+  font-size:12px;
+  letter-spacing:.08em;
+}
+
+@media(max-width:650px){
+  .site-header{height:70px;padding:8px 16px}
+  .brand{width:190px}
+  .brand img{height:52px}
+  .home-link{padding:9px 11px;font-size:11px}
+  .page{width:calc(100% - 18px);margin:34px auto 60px}
+  .intro{padding:0 10px;margin-bottom:25px}
+  .intro h1{font-size:34px}
+  .intro p{font-size:14px}
+  .survey-frame{padding:6px;border-radius:12px}
+  .survey{border-radius:8px}
+  .survey-head,.questions,.survey-footer{padding-left:17px;padding-right:17px}
+  .survey-head{padding-top:22px}
+  .survey-head h2{font-size:22px}
+  .question{padding:24px 0}
+  .q-head{gap:10px}
+  .q-num{width:38px;height:38px}
+  .q-title{font-size:16px}
+  .options{margin-left:0}
+  textarea{width:100%;margin-left:0}
+  .actions{display:grid;grid-template-columns:1fr}
+  button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="snow snow-a"></div>
+<div class="snow snow-b"></div>
+
+<header class="site-header no-capture">
+  <a class="brand" href="./index.html" aria-label="열렙팩토리 홈">
+    <img src="./assets/logo.png" alt="열렙팩토리" onerror="this.style.display='none';this.parentElement.innerHTML='<strong style=&quot;color:#ffe277;font-size:20px&quot;>열렙팩토리</strong>'">
+  </a>
+  <a class="home-link" href="./index.html">← 메인으로 돌아가기</a>
+</header>
+
+<main class="page">
+  <section class="intro no-capture">
+    <div class="eyebrow">YEOLLEV FACTORY · CUSTOMER INFO</div>
+    <h1>서비스 이용 <strong>정보 확인</strong></h1>
+    <p>
+      서비스 진행에 필요한 고객 정보를 확인하는 페이지입니다.<br>
+      답변을 모두 작성한 뒤 하단 버튼을 누르면 작성 결과를 이미지로 저장할 수 있습니다.<br>
+      이미지로 저장한 뒤 상담 톡방에 공유해 주세요.
+    </p>
+  </section>
+
+  <div class="survey-frame" id="captureArea">
+    <section class="survey">
+      <div class="survey-head">
+        <div class="board-label">
+          <span>LINEAGE CLASSIC CUSTOMER INFO</span>
+          <b>CUSTOMER INFO</b>
+        </div>
+        <h2>열렙팩토리 고객 정보 확인</h2>
+        <p>서비스 진행에 필요한 정보를 선택하거나 직접 작성해주세요.</p>
+
+        <div class="progress-wrap no-capture">
+          <div class="progress-meta">
+            <span>정보 입력 현황</span>
+            <span id="progressText">0 / 7</span>
+          </div>
+          <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+        </div>
+      </div>
+
+      <form id="surveyForm">
+        <div class="questions">
+          <section class="question">
+            <div class="q-head">
+              <div class="q-num">01</div>
+              <div>
+                <div class="q-title">클래스가 어떻게 되시나요?<span class="required">*</span></div>
+                <span class="q-type">단일 선택 · 한 항목만 선택할 수 있습니다.</span>
+              </div>
+            </div>
+            <div class="options">
+              <label class="option"><input type="radio" name="q1" value="군주"> 군주</label>
+              <label class="option"><input type="radio" name="q1" value="기사"> 기사</label>
+              <label class="option"><input type="radio" name="q1" value="요정"> 요정</label>
+              <label class="option"><input type="radio" name="q1" value="마법사"> 마법사</label>
+            </div>
+          </section>
+
+          <section class="question">
+            <div class="q-head">
+              <div class="q-num">02</div>
+              <div>
+                <div class="q-title">레벨과 서버를 알려주세요.<span class="required">*</span></div>
+                <span class="q-type">직접 서술</span>
+              </div>
+            </div>
+            <textarea name="q2" placeholder="예시 : 51/데포"></textarea>
+          </section>
+
+          <section class="question">
+            <div class="q-head">
+              <div class="q-num">03</div>
+              <div>
+                <div class="q-title">장비를 알려주세요.<span class="required">*</span></div>
+                <span class="q-type">직접 서술</span>
+              </div>
+            </div>
+            <textarea name="q3" placeholder="예시 : 9검5셋"></textarea>
+          </section>
+
+          <section class="question">
+            <div class="q-head">
+              <div class="q-num">04</div>
+              <div>
+                <div class="q-title">라인이신가요?<span class="required">*</span></div>
+                <span class="q-type">단일 선택 · 한 항목만 선택할 수 있습니다.</span>
+              </div>
+            </div>
+            <div class="options">
+              <label class="option"><input type="radio" name="q4" value="라인"> 라인</label>
+              <label class="option"><input type="radio" name="q4" value="중립"> 중립</label>
+            </div>
+          </section>
+
+          <section class="question">
+            <div class="q-head">
+              <div class="q-num">05</div>
+              <div>
+                <div class="q-title">피시방 접속이 필요하신가요? (깃털)<span class="required">*</span></div>
+                <span class="q-type">단일 선택 · 한 항목만 선택할 수 있습니다.</span>
+              </div>
+            </div>
+            <div class="options">
+              <label class="option"><input type="radio" name="q5" value="상시접속"> 상시접속</label>
+              <label class="option"><input type="radio" name="q5" value="6시간"> 6시간 (깃털 수량만)</label>
+              <label class="option"><input type="radio" name="q5" value="필요없음"> 필요없음</label>
+            </div>
+          </section>
+          <section class="question">
+            <div class="q-head">
+              <div class="q-num">06</div>
+              <div>
+                <div class="q-title">ATS는 어디서 돌려드릴까요?<span class="required">*</span></div>
+                <span class="q-type">단일 선택 · 한 항목만 선택할 수 있습니다.</span>
+              </div>
+            </div>
+            <div class="options">
+              <label class="option"><input type="radio" name="q8" value="버땅"> 버땅</label>
+              <label class="option"><input type="radio" name="q8" value="버땅심연"> 버땅 심연</label>
+              <label class="option"><input type="radio" name="q8" value="타락"> 타락</label>
+            </div>
+          </section>
+          <section class="question">
+            <div class="q-head">
+              <div class="q-num">07</div>
+              <div>
+                <div class="q-title">버프는 어떻게 해드릴까요?</div>
+                <span class="q-type">복수 선택 · 여러 항목을 선택할 수 있습니다.</span>
+              </div>
+            </div>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="q9" value="불"> 불</label>
+              <label class="option"><input type="checkbox" name="q9" value="불어스"> 어스</label>
+              <label class="option"><input type="checkbox" name="q9" value="블레스"> 블레스</label>
+              <label class="option"><input type="checkbox" name="q9" value="버서커스"> 버서</label>
+              <label class="option"><input type="checkbox" name="q9" value="바람"> 바람</label>
+              <label class="option"><input type="checkbox" name="q9" value="군업"> 군업</label>
+            </div>
+          </section>
+
+
+        <div class="survey-footer no-capture">
+          <p class="notice"><strong>※ 안내</strong> 별표(*) 문항은 필수입니다. 이미지 저장 시 현재 선택한 항목과 작성한 내용이 그대로 포함됩니다.</p>
+          <div class="actions">
+            <button class="btn-reset" type="button" id="resetBtn">전체 초기화</button>
+            <button class="btn-save" type="button" id="saveBtn">작성 내용 이미지로 저장</button>
+          </div>
+          <div class="status" id="status">작성 내용 이미지를 생성하고 있습니다...</div>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="bottom-copy no-capture">YEOLLEV FACTORY · GOOD GAME, BETTER LIFE</div>
+</main>
+
+<script>
+const form = document.getElementById('surveyForm');
+const captureArea = document.getElementById('captureArea');
+const resetBtn = document.getElementById('resetBtn');
+const saveBtn = document.getElementById('saveBtn');
+const statusEl = document.getElementById('status');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+
+const questionNames = ['q1','q2','q3','q4','q5','q8','q9'];
+
+function hasAnswer(name){
+  const els = [...form.elements].filter(el => el.name === name);
+  if(!els.length) return false;
+  if(els[0].type === 'radio' || els[0].type === 'checkbox'){
+    return els.some(el => el.checked);
+  }
+  return els.some(el => (el.value || '').trim().length > 0);
+}
+
+function updateProgress(){
+  const done = questionNames.filter(hasAnswer).length;
+  progressText.textContent = `${done} / ${questionNames.length}`;
+  progressBar.style.width = `${(done / questionNames.length) * 100}%`;
+}
+
+form.addEventListener('input', updateProgress);
+form.addEventListener('change', updateProgress);
+
+// 선택 상태(selected 클래스) 업데이트 함수
+function updateOptionSelectedState() {
+  const options = form.querySelectorAll('.option');
+  options.forEach(opt => {
+    const input = opt.querySelector('input');
+    if (input && input.checked) {
+      opt.classList.add('selected');
+    } else {
+      opt.classList.remove('selected');
+    }
+  });
+}
+
+// 이벤트 발생 시 선택 상태 업데이트 실행
+form.addEventListener('change', () => {
+  updateOptionSelectedState();
+  updateProgress();
+});
+
+// 초기화 버튼 클릭 시 클래스 초기화
+
+resetBtn.addEventListener('click', () => {
+  if(confirm('작성한 내용을 모두 초기화할까요?')){
+    form.reset();
+    updateProgress();
+  }
+});
+
+function validateCustomRequired(){
+  // q2(textarea) 내용이 비어있는지 검사
+  const q2Val = form.elements['q2'].value.trim();
+  if(!q2Val){
+    alert('2번 문항(레벨과 서버)을 입력해주세요.');
+    form.elements['q2'].focus();
+    return false;
+  }
+  
+  // q3(textarea) 내용이 비어있는지 검사
+  const q3Val = form.elements['q3'].value.trim();
+  if(!q3Val){
+    alert('3번 문항(장비)을 입력해주세요.');
+    form.elements['q3'].focus();
+    return false;
+  }
+
+  return true;
+}
+
+async function saveAsImage(){
+  if(!form.reportValidity()) return;
+  if(!validateCustomRequired()) return;
+
+  saveBtn.disabled = true;
+  statusEl.style.display = 'block';
+  document.body.classList.add('capture-mode');
+
+  const textareas = [...document.querySelectorAll('textarea')];
+  const oldHeights = textareas.map(t => t.style.height);
+  textareas.forEach(t => {
+    t.style.height = 'auto';
+    t.style.height = Math.max(t.scrollHeight, 130) + 'px';
+  });
+
+  try{
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 150));
+
+    const canvas = await html2canvas(captureArea, {
+      scale: Math.min(window.devicePixelRatio || 1, 2),
+      backgroundColor: '#020b18',
+      useCORS: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: -window.scrollY,
+      windowWidth: document.documentElement.scrollWidth
+    });
+
+    const link = document.createElement('a');
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    link.download =
+      `열렙팩토리_고객정보_${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }catch(err){
+    console.error(err);
+    alert('이미지 저장 중 오류가 발생했습니다. 페이지를 새로고침한 뒤 다시 시도해주세요.');
+  }finally{
+    textareas.forEach((t,i) => t.style.height = oldHeights[i]);
+    document.body.classList.remove('capture-mode');
+    statusEl.style.display = 'none';
+    saveBtn.disabled = false;
+  }
+}
+
+saveBtn.addEventListener('click', saveAsImage);
+updateProgress();
+</script>
+</body>
+</html>

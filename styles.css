@@ -426,8 +426,10 @@ body::before {
 }
 
 .pricing-grid {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+
   width: 100%;
   max-width: 1300px;
   margin: auto;
@@ -435,14 +437,23 @@ body::before {
 
 .price-card {
   position: relative;
+
   width: 100%;
-  max-width: 760px;
+  max-width: none;
+
   padding: 38px 36px;
   overflow: hidden;
+
   border: 1px solid #226da1;
   border-radius: 15px;
+
   background:
-    linear-gradient(180deg, rgba(8, 42, 73, 0.98), rgba(3, 18, 35, 0.98));
+    linear-gradient(
+      180deg,
+      rgba(8, 42, 73, 0.98),
+      rgba(3, 18, 35, 0.98)
+    );
+
   box-shadow: var(--shadow);
 }
 
@@ -890,6 +901,10 @@ footer a {
   .mission-list article {
     padding: 14px;
   }
+ .pricing-grid {
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
 }
 
 /* =========================================================

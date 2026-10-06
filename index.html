@@ -57,7 +57,7 @@
 
   <div class="hero-inner">
 
-    <!-- 왼쪽 : 기존 메인 내용 -->
+    <!-- 상단 : 메인 소개 -->
     <div class="hero-copy reveal">
       <span class="eyebrow">
         LINEAGE CLASSIC · ATS CARE SERVICE
@@ -97,11 +97,15 @@
     </div>
 
 
-    <!-- 오른쪽 : 포스터 -->
+    <!-- 하단 : 포스터 -->
     <div class="hero-poster reveal delay-1">
       <img
         src="assets/post.png"
         alt="ATS 숙제 패키지 안내"
+        class="poster-preview"
+        role="button"
+        tabindex="0"
+        aria-label="ATS 숙제 패키지 포스터 크게 보기"
       />
     </div>
 
@@ -786,6 +790,28 @@
       TOP ↑
     </a>
   </footer>
+
+
+  <!-- 포스터 확대 보기 -->
+  <div
+    class="poster-lightbox"
+    id="posterLightbox"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="ATS 숙제 패키지 포스터 크게 보기"
+  >
+    <button
+      class="poster-lightbox-close"
+      type="button"
+      aria-label="포스터 닫기"
+    >×</button>
+
+    <img
+      src="assets/post.png"
+      alt="ATS 숙제 패키지 안내 확대 이미지"
+    />
+  </div>
 
   <script src="script.js"></script>
 </body>

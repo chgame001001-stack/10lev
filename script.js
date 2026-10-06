@@ -95,4 +95,51 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  /* =========================
+     포스터 확대 보기
+  ========================== */
+  const posterPreview = document.querySelector(".poster-preview");
+  const posterLightbox = document.querySelector("#posterLightbox");
+  const posterClose = document.querySelector(".poster-lightbox-close");
+
+  if (posterPreview && posterLightbox && posterClose) {
+    const openPoster = () => {
+      posterLightbox.classList.add("open");
+      posterLightbox.setAttribute("aria-hidden", "false");
+      document.body.classList.add("lightbox-open");
+      posterClose.focus();
+    };
+
+    const closePoster = () => {
+      posterLightbox.classList.remove("open");
+      posterLightbox.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("lightbox-open");
+      posterPreview.focus();
+    };
+
+    posterPreview.addEventListener("click", openPoster);
+
+    posterPreview.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openPoster();
+      }
+    });
+
+    posterClose.addEventListener("click", closePoster);
+
+    posterLightbox.addEventListener("click", (event) => {
+      if (event.target === posterLightbox) {
+        closePoster();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && posterLightbox.classList.contains("open")) {
+        closePoster();
+      }
+    });
+  }
+
 });

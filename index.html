@@ -10,26 +10,6 @@
   />
   <title>열렙팩토리 | Lineage Classic</title>
   <link rel="stylesheet" href="styles.css" />
-<style>
-/* ATS 요금표 전용 스타일: 기존 홈페이지의 다른 카드에는 영향 없음 */
-.ats-price-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:40px}
-.ats-price-card{position:relative;min-width:0;padding:34px 18px 20px;text-align:center;color:#fff;background:linear-gradient(145deg,#0647a2,#002764 65%,#001b52);border:4px double #8ad7ff;border-radius:19px;box-shadow:inset 0 0 0 3px #0048ae,0 0 15px #1c8dff55}
-.ats-price-card:before{content:"";position:absolute;inset:-9px 8px auto;height:16px;background:linear-gradient(180deg,#fff,#9de8ff 55%,#2c9cf6);border-radius:60% 60% 35% 35%;filter:drop-shadow(0 2px 2px #248fff)}
-.ats-gem{position:absolute;top:-29px;left:50%;transform:translateX(-50%);font-size:38px;color:#ffb525;text-shadow:0 2px #8c3500,0 0 10px #ffde5a}
-.ats-gem.blue{color:#3fe9ff;text-shadow:0 2px #0053c2,0 0 10px #7cfaff}
-.ats-gem.purple{color:#d874ff;text-shadow:0 2px #7313b8,0 0 10px #edb1ff}
-.ats-price-card h3{font-size:clamp(16px,1.8vw,23px);font-weight:900;color:#fff;margin:0 0 4px;line-height:1.35}
-.ats-price-card>p{font-size:12px;color:#e6f4ff;font-weight:700;margin:0 0 9px}
-.ats-price-row{display:flex;justify-content:center;align-items:baseline;gap:15px;color:#ffe600;font-weight:900;font-size:clamp(15px,1.7vw,21px);line-height:1.5;white-space:nowrap}
-.ats-price-row strong{font-size:inherit;color:inherit}
-.ats-price-total{border-top:1px solid #4383c6;margin-top:10px;padding-top:7px;display:flex;flex-direction:column;align-items:center;color:#ffe600;font-weight:900;line-height:1.3}
-.ats-price-total span{font-size:clamp(13px,1.5vw,18px)}
-.ats-price-total del{color:#ff653c;text-decoration-thickness:2px}
-.ats-price-total strong{font-size:clamp(20px,2.3vw,29px);color:#ffe600}
-.ats-price-description{border-top:1px solid #4383c6;margin-top:10px;padding-top:12px;font-size:12px;font-weight:700;line-height:1.55;color:#fff}
-.ats-price-banner{margin-top:20px;padding:20px 16px;text-align:center;background:linear-gradient(180deg,#0750b6,#00215e);border:4px double #a2e7ff;border-radius:18px;color:#fff;font-size:clamp(14px,1.8vw,21px);font-weight:900;box-shadow:0 0 14px #1689ff66}
-@media(max-width:760px){.ats-price-grid{grid-template-columns:1fr;gap:36px}.ats-price-card{max-width:460px;width:100%;margin:auto;padding:34px 22px 23px}.ats-price-card h3{font-size:22px}.ats-price-row{font-size:21px}.ats-price-total strong{font-size:28px}.ats-price-description{font-size:13px}}
-</style>
 </head>
 
 <body>
@@ -245,33 +225,50 @@
     </p>
   </div>
 
-  <div class="ats-price-grid">
-    <article class="ats-price-card reveal">
-      <div class="ats-gem">✦</div>
+  <div class="pricing-grid">
+
+    <!-- ATS 버프관리 15일 -->
+    <article class="price-card reveal">
+      <div class="badge">ATS</div>
       <h3>ATS 버프관리 15일</h3>
-      <p>아이템은 본주 귀속입니다.</p>
-      <div class="ats-price-row"><span>주간</span><strong>110,000원</strong></div>
-      <div class="ats-price-row"><span>야간</span><strong>110,000원</strong></div>
-      <div class="ats-price-total"><span>주간 + 야간 <del>220,000원</del></span><strong>170,000원</strong></div>
+      <p class="price-note">아이템은 본주 귀속입니다.</p>
+      <div class="price-line highlight"><span>주간</span><strong>110,000원</strong></div>
+      <div class="price-line highlight"><span>야간</span><strong>110,000원</strong></div>
+      <div class="price-line highlight"><span>주간+야간</span><strong>170,000원</strong></div>
     </article>
-    <article class="ats-price-card reveal delay-1">
-      <div class="ats-gem blue">✦</div>
+
+    <!-- ATS 버프관리 30일 -->
+    <article class="price-card reveal delay-1">
+      <div class="badge">ATS</div>
       <h3>ATS 버프관리 30일</h3>
-      <p>아이템은 본주 귀속입니다.</p>
-      <div class="ats-price-row"><span>주간</span><strong>210,000원</strong></div>
-      <div class="ats-price-row"><span>야간</span><strong>210,000원</strong></div>
-      <div class="ats-price-total"><span>주간 + 야간 <del>420,000원</del></span><strong>300,000원</strong></div>
+      <p class="price-note">아이템은 본주 귀속입니다.</p>
+      <div class="price-line highlight"><span>주간</span><strong>210,000원</strong></div>
+      <div class="price-line highlight"><span>야간</span><strong>210,000원</strong></div>
+      <div class="price-line highlight"><span>주간+야간</span><strong>300,000원</strong></div>
     </article>
-    <article class="ats-price-card reveal delay-2">
-      <div class="ats-gem purple">✦</div>
-      <h3>법사 ATS 턴사냥</h3>
-      <p>아이템은 본주 귀속입니다.</p>
-      <div class="ats-price-row"><span>15일</span><strong>170,000원</strong></div>
-      <div class="ats-price-row"><span>30일</span><strong>300,000원</strong></div>
-      <div class="ats-price-description">기본 제공되는 3시간 소모 기준입니다.<br>소요시간은 약 12시간 정도 소요되며<br>계정 상태에 따라 변동될 수 있습니다.</div>
+
+    <!-- 법사 ATS 텃사냥 -->
+    <article class="price-card reveal delay-2">
+      <div class="badge">ATS</div>
+      <h3>법사 ATS 텃사냥</h3>
+      <p class="price-note">아이템은 본주 귀속입니다.</p>
+      <div class="price-line highlight"><span>15일</span><strong>170,000원</strong></div>
+      <div class="price-line highlight"><span>30일</span><strong>300,000원</strong></div>
+      <p class="price-note" style="margin-top:20px;line-height:1.7;">
+        기본 제공되는 3시간 소모 기준입니다.<br />
+        소요시간은 약 12시간 정도 소요되며<br />
+        계정 상태에 따라 변동될 수 있습니다.
+      </p>
     </article>
+
   </div>
-  <div class="ats-price-banner reveal">사무실 귀속은 보다 저렴하게 이용 가능합니다! 자세한 건 문의주시면 친절히 안내드리겠습니다.</div>
+
+  <!-- 사무실 귀속 안내: 기존 카드 스타일 유지 -->
+  <div class="price-card reveal" style="margin-top:24px;text-align:center;">
+    <p style="margin:0;line-height:1.7;font-weight:700;">
+      사무실 귀속은 보다 저렴하게 이용 가능합니다! 자세한 건 문의주시면 친절히 안내드리겠습니다.
+    </p>
+  </div>
 </section>
 
 

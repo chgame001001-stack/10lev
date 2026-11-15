@@ -10,6 +10,37 @@
   />
   <title>열렙팩토리 | Lineage Classic</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* 요금제 카드만 3열로 조정: 기존 색상과 테두리는 유지 */
+    #pricing .pricing-grid-three {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    #pricing .pricing-grid-three > .price-card {
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 28px 20px;
+    }
+    #pricing .pricing-grid-three .price-line { gap: 8px; }
+    #pricing .pricing-grid-three .price-line strong { font-size: clamp(19px, 2vw, 29px); white-space: nowrap; }
+    #pricing .combo-price .price-values {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 3px;
+      min-width: 0;
+    }
+    #pricing .combo-price del { color: #a5b8cb; font-size: 15px; font-weight: 600; white-space: nowrap; }
+    @media (max-width: 960px) {
+      #pricing .pricing-grid-three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      #pricing .pricing-grid-three { grid-template-columns: 1fr; }
+      #pricing .pricing-grid-three > .price-card { padding: 26px 20px; }
+      #pricing .pricing-grid-three .price-line strong { font-size: 26px; }
+    }
+  </style>
 </head>
 
 <body>
@@ -225,7 +256,7 @@
     </p>
   </div>
 
-  <div class="pricing-grid">
+  <div class="pricing-grid pricing-grid-three">
 
     <!-- ATS 버프관리 15일 -->
     <article class="price-card reveal">
@@ -234,7 +265,7 @@
       <p class="price-note">아이템은 본주 귀속입니다.</p>
       <div class="price-line highlight"><span>주간</span><strong>110,000원</strong></div>
       <div class="price-line highlight"><span>야간</span><strong>110,000원</strong></div>
-      <div class="price-line highlight"><span>주간+야간</span><strong>170,000원</strong></div>
+      <div class="price-line highlight combo-price"><span>주간+야간</span><div class="price-values"><del>220,000원</del><strong>170,000원</strong></div></div>
     </article>
 
     <!-- ATS 버프관리 30일 -->
@@ -244,7 +275,7 @@
       <p class="price-note">아이템은 본주 귀속입니다.</p>
       <div class="price-line highlight"><span>주간</span><strong>210,000원</strong></div>
       <div class="price-line highlight"><span>야간</span><strong>210,000원</strong></div>
-      <div class="price-line highlight"><span>주간+야간</span><strong>300,000원</strong></div>
+      <div class="price-line highlight combo-price"><span>주간+야간</span><div class="price-values"><del>420,000원</del><strong>300,000원</strong></div></div>
     </article>
 
     <!-- 법사 ATS 텃사냥 -->
